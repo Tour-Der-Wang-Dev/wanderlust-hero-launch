@@ -2,6 +2,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface HeroSectionProps {
   title: string;
@@ -10,6 +11,8 @@ interface HeroSectionProps {
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({ title, ctaText, ctaLink }) => {
+  const { t } = useLanguage();
+  
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     e.preventDefault();
     const target = document.querySelector(ctaLink);
@@ -43,7 +46,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ title, ctaText, ctaLink }) =>
           {title}
         </h1>
         <p className="text-xl md:text-2xl text-white/90 mb-10 max-w-2xl leading-relaxed">
-          Explore the enchanting legends and breathtaking nature of Wang Sam Mo. Walk with history, marvel at the mighty crocodile, and immerse yourself in beautiful landscapes.
+          {t("hero.description")}
         </p>
         <a
           href={ctaLink}

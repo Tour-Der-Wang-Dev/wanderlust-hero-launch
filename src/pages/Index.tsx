@@ -6,8 +6,11 @@ import AboutSection from "@/components/AboutSection";
 import HighlightedPlaces from "@/components/HighlightedPlaces";
 import FestivalAndProducts from "@/components/FestivalAndProducts";
 import ContactAndFooter from "@/components/ContactAndFooter";
+import { useLanguage } from "@/context/LanguageContext";
 
 const Index = () => {
+  const { t } = useLanguage();
+
   // Navigation sections
   const sections = [
     { title: "Home", link: "#home" },
@@ -91,17 +94,17 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background text-foreground flex flex-col">
       <Navbar sections={sections} />
       <main>
         <HeroSection
-          title="Discover Wang Sam Mo"
-          ctaText="Explore Now"
+          title={t("hero.title")}
+          ctaText={t("hero.cta")}
           ctaLink="#about"
         />
         <AboutSection
-          title="The Hidden Gem of Thailand"
-          text="Wang Sam Mo is a district blessed with natural beauty, rich cultural heritage, and warm hospitality. Nestled between mountains and rivers, this charming destination offers visitors an authentic experience of traditional Thai lifestyle while providing modern comforts for travelers."
+          title={t("about.title")}
+          text={t("about.text")}
           image="/lovable-uploads/image (19).jpg"
         />
         <HighlightedPlaces locations={locations} />

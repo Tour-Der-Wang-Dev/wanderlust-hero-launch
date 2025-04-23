@@ -4,6 +4,9 @@ import { NavigationMenu, NavigationMenuItem, NavigationMenuList, NavigationMenuL
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import ThemeToggle from "@/components/ThemeToggle";
+import LanguageToggle from "@/components/LanguageToggle";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface NavbarProps {
   sections: { title: string; link: string }[];
@@ -12,16 +15,21 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ sections }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      if (window) {
+        setIsScrolled(window.scrollY > 10);
+      }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    if (window) {
+      window.addEventListener("scroll", handleScroll);
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }
   }, []);
 
   const handleNavClick = (link: string) => {
@@ -37,12 +45,18 @@ const Navbar: React.FC<NavbarProps> = ({ sections }) => {
     }
   };
 
+  // Translate section titles
+  const translatedSections = sections.map(section => ({
+    ...section,
+    translatedTitle: t(`nav.${section.title.toLowerCase()}`) || section.title
+  }));
+
   return (
     <header
       className={cn(
         "fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-in-out",
         isScrolled
-          ? "bg-white/90 backdrop-blur-md shadow-md py-2"
+          ? "bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-md py-2"
           : "bg-transparent py-4"
       )}
     >
@@ -58,21 +72,29 @@ const Navbar: React.FC<NavbarProps> = ({ sections }) => {
         {/* Desktop Navigation */}
         <NavigationMenu className="hidden md:flex">
           <NavigationMenuList>
-            {sections.map((section) => (
+            {translatedSections.map((section) => (
               <NavigationMenuItem key={section.link}>
                 <NavigationMenuLink
                   className={cn(
                     "px-4 py-2 transition-colors text-sm font-medium",
-                    isScrolled ? "text-gray-800 hover:text-orange-500" : "text-white hover:text-orange-300"
+                    isScrolled 
+                      ? "text-gray-800 dark:text-gray-200 hover:text-orange-500 dark:hover:text-orange-300" 
+                      : "text-white hover:text-orange-300"
                   )}
                   onClick={() => handleNavClick(section.link)}
                 >
-                  {section.title}
+                  {section.translatedTitle}
                 </NavigationMenuLink>
               </NavigationMenuItem>
             ))}
           </NavigationMenuList>
         </NavigationMenu>
+
+        {/* Theme and Language Toggles */}
+        <div className="hidden md:flex items-center space-x-4">
+          <LanguageToggle />
+          <ThemeToggle />
+        </div>
 
         {/* Mobile Menu Button */}
         <Button
@@ -83,25 +105,29 @@ const Navbar: React.FC<NavbarProps> = ({ sections }) => {
           aria-label="Toggle menu"
         >
           {isMobileMenuOpen ? (
-            <X className={isScrolled ? "text-gray-800" : "text-white"} />
+            <X className={isScrolled ? "text-gray-800 dark:text-gray-200" : "text-white"} />
           ) : (
-            <Menu className={isScrolled ? "text-gray-800" : "text-white"} />
+            <Menu className={isScrolled ? "text-gray-800 dark:text-gray-200" : "text-white"} />
           )}
         </Button>
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="absolute top-full left-0 w-full bg-white shadow-md py-4 px-4 md:hidden">
+          <div className="absolute top-full left-0 w-full bg-white dark:bg-gray-900 shadow-md py-4 px-4 md:hidden">
             <nav className="flex flex-col space-y-4">
-              {sections.map((section) => (
+              {translatedSections.map((section) => (
                 <a
                   key={section.link}
-                  className="text-gray-800 hover:text-orange-500 font-medium"
+                  className="text-gray-800 dark:text-gray-200 hover:text-orange-500 dark:hover:text-orange-300 font-medium"
                   onClick={() => handleNavClick(section.link)}
                 >
-                  {section.title}
+                  {section.translatedTitle}
                 </a>
               ))}
+              <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
+                <LanguageToggle />
+                <ThemeToggle />
+              </div>
             </nav>
           </div>
         )}
