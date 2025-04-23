@@ -59,7 +59,11 @@ const translations: Record<Language, Record<string, string>> = {
     "footer.rights": "All rights reserved.",
     "footer.privacy": "Privacy",
     "footer.terms": "Terms",
-    "footer.sitemap": "Sitemap"
+    "footer.sitemap": "Sitemap",
+    
+    // Advertising Section
+    "advertising.summary": "Join us in promoting the beauty and culture of Wang Sam Mo to travelers worldwide. Reach engaged audiences and grow your business with our targeted advertising solutions.",
+    "advertising.cta": "Learn More",
   },
   th: {
     // Navigation
@@ -110,7 +114,11 @@ const translations: Record<Language, Record<string, string>> = {
     "footer.rights": "สงวนลิขสิทธิ์",
     "footer.privacy": "นโยบายความเป็นส่วนตัว",
     "footer.terms": "เงื่อนไขการใช้งาน",
-    "footer.sitemap": "แผนผังเว็บไซต์"
+    "footer.sitemap": "แผนผังเว็บไซต์",
+    
+    // Advertising Section
+    "advertising.summary": "ร่วมเป็นส่วนหนึ่งในการส่งเสริมความงามและวัฒนธรรมของวังสามหมอสู่นักท่องเที่ยวทั่วโลก เข้าถึงกลุ่มเป้าหมายและพัฒนาธุรกิจของคุณด้วยโซลูชันการโฆษณาที่ตรงกลุ่ม",
+    "advertising.cta": "ดูข้อมูลเพิ่มเติม",
   }
 };
 
