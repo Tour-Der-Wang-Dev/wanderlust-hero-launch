@@ -66,6 +66,60 @@ export type Database = {
         }
         Relationships: []
       }
+      bets: {
+        Row: {
+          amount: number
+          bet_type: string
+          created_at: string
+          id: string
+          number: string
+          payout_rate: number
+          round_id: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          bet_type: string
+          created_at?: string
+          id?: string
+          number: string
+          payout_rate: number
+          round_id: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          bet_type?: string
+          created_at?: string
+          id?: string
+          number?: string
+          payout_rate?: number
+          round_id?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bets_round_id_fkey"
+            columns: ["round_id"]
+            isOneToOne: false
+            referencedRelation: "lottery_rounds"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bets_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       events: {
         Row: {
           created_at: string
@@ -96,6 +150,74 @@ export type Database = {
         }
         Relationships: []
       }
+      lottery_results: {
+        Row: {
+          created_at: string
+          id: string
+          round_id: string
+          single_digit: string | null
+          three_digit_bottom: string | null
+          three_digit_top: string | null
+          two_digit_bottom: string | null
+          two_digit_top: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          round_id: string
+          single_digit?: string | null
+          three_digit_bottom?: string | null
+          three_digit_top?: string | null
+          two_digit_bottom?: string | null
+          two_digit_top?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          round_id?: string
+          single_digit?: string | null
+          three_digit_bottom?: string | null
+          three_digit_top?: string | null
+          two_digit_bottom?: string | null
+          two_digit_top?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lottery_results_round_id_fkey"
+            columns: ["round_id"]
+            isOneToOne: false
+            referencedRelation: "lottery_rounds"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lottery_rounds: {
+        Row: {
+          created_at: string
+          draw_date: string
+          id: string
+          round_name: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          draw_date: string
+          id?: string
+          round_name: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          draw_date?: string
+          id?: string
+          round_name?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -117,6 +239,71 @@ export type Database = {
           full_name?: string | null
           id?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      transactions: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          notes: string | null
+          reference_id: string | null
+          status: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          notes?: string | null
+          reference_id?: string | null
+          status?: string
+          type: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          notes?: string | null
+          reference_id?: string | null
+          status?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      users: {
+        Row: {
+          balance: number
+          created_at: string
+          id: string
+          updated_at: string
+          username: string
+        }
+        Insert: {
+          balance?: number
+          created_at?: string
+          id: string
+          updated_at?: string
+          username: string
+        }
+        Update: {
+          balance?: number
+          created_at?: string
+          id?: string
+          updated_at?: string
+          username?: string
         }
         Relationships: []
       }
